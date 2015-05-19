@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>pure Video Player UI - By Fabio V / static </title>
+<style>
+
+a.ui{text-decoration:none !important}
+a.ui .box{position:relative;font-size:0;font-family:arial,sans-serif;min-width:240px;}
+a.ui .box div{top:0;left:0;bottom:auto;right:auto;}
+a.ui .box,
+a.ui .box img,
+a.ui .box div,
+a.ui .box em,
+a.ui .box ul{height:auto;margin:0 auto;padding:0;border:0;letter-spacing:0;outline:none !important;text-decoration:none;font-weight:500;vertical-align:baseline;overflow:hidden;}
+
+a.ui .box.video >ul,
+a.ui .box.video >div{font-size:12px;line-height:30px;background:#333;color:#787878;text-shadow:0 1px 2px #000;}
+a.ui .box.video >ul,
+a.ui .box.video >div,
+a.ui .box *::selection{cursor:default;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;}
+a.ui .box *::selection, a.ui img{border:0;background:transparent;-webkit-tap-highlight-color:transparent;}
+
+a.ui .box.video .top{text-indent:9px;}
+
+a.ui .box.video .bar{list-style-type:none;display:table;padding:4px;}
+a.ui .box.video .bar li{display:table-cell;width:100%;}
+a.ui .box.video .bar li,
+a.ui .box.video .bar em{font-size:0;font-style:normal;color:transparent;vertical-align:middle;background:none 50% 50% no-repeat transparent;}
+a.ui .box.video .bar em{display:inline-block;width:30px;}
+a.ui .box.video .bar em.time{width:auto;margin:2px 11px 0 6px;font-size:10px;color:#6C6C6C;text-shadow:0 1px 3px #000;}
+a.ui .box.video .bar em.time span{text-shadow:0 1px 1px #000;}
+a.ui .box.video .bar em.time span.played{padding-right:1px;color:#CFCFCF;}
+a.ui .box.video .bar em.time span.total{padding-left:2px;color:#7B7373;}
+/*
+a.ui .box.video .bar em.play{background-image:url(http://www.dvbuilder.com/galleries/uivideo/player-play.png);}
+a.ui .box.video .bar em.previous{background-image:url(http://www.dvbuilder.com/galleries/uivideo/player-prev.png);}
+a.ui .box.video .bar em.next{background-image:url(http://www.dvbuilder.com/galleries/uivideo/player-next.png);}
+a.ui .box.video .bar em.volume{background-image:url(http://www.dvbuilder.com/galleries/uivideo/player-volume.png);}
+*/
+a.ui .box.video .bar em.play{background-image:url(./res/img/ui/player-play.png);}
+a.ui .box.video .bar em.previous{background-image:url(./res/img/ui/player-prev.png);}
+a.ui .box.video .bar em.next{background-image:url(./res/img/ui/player-next.png);}
+a.ui .box.video .bar em.volume{background-image:url(./res/img/ui/player-volume.png);}
+
+.show img{width:100%;height:auto;max-height:87vh;text-align:center;line-height:0;}
+
+a.ui .box.video .bar em.timeline{position:relative;overflow:visible;width:calc(100% - 120px);background:rgba(0,0,0,.5);border-radius:5px;}
+a.ui .box.video .bar em.timeline span{display:inline-block;float:left;height:100%;border-radius:inherit;}
+a.ui .box.video .bar em.timeline span.played{width:10%;min-width:17px;background:red;}
+a.ui .box.video .bar em.timeline span.played span.handler{display:block;height:17px;width:17px;float:right;position:relative;top:-3px;right:-3px;border-radius:8px;background:rgba(0,0,0,.15) url(http://www.dvbuilder.com/galleries/uivideo/player-slider-handle.png);box-shadow:0 -1px 2px rgba(0, 0, 0, 0.24);}
+
+a.ui .box.video .bar em.timeline,
+a.ui .box.video .bar em.timeline span.loaded:after{height:9px;}
+
+@-webkit-keyframes shiftbgby16px{0%{background-position:0 0;}100%{background-position:16px 0;}}
+@-moz-keyframes shiftbgby16px{0%{background-position:0 0;}100%{background-position:16px 0;}}
+@keyframes shiftbgby16px{0%{background-position:0 0;}100%{background-position:16px 0;}}
+a.ui .box.video .bar em.timeline span.loaded:after{content:'';display:block;overflow:hidden;
+-webkit-animation:shiftbgby16px .4s linear infinite;-moz-animation:shiftbgby16px .4s linear infinite;animation:shiftbgby16px .4s linear infinite;
+background: -webkit-repeating-linear-gradient(-45deg,rgba(0,0,0,0.4),rgba(0,0,0,0.4) 25%,transparent 25%,transparent 50%) top left fixed;
+background: repeating-linear-gradient(-45deg,rgba(0,0,0,0.4),rgba(0,0,0,0.4) 25%,transparent 25%,transparent 50%) top left fixed;
+-webkit-background-size:16px 16px;
+-moz-background-size:16px 16px;
+background-size:16px 16px;
+}
+
+@-webkit-keyframes widthfrom0to26percent{0%{width:0;}100%{width:26%;}}
+@-moz-keyframes widthfrom0to26percent{0%{width:0;}100%{width:26%;}}
+@keyframes widthfrom0to26percent{0%{width:0;}100%{width:26%;}}
+a.ui .box.video .bar em.timeline span.loaded{width:26%;background:#461414;
+-webkit-animation:widthfrom0to26percent 4s cubic-bezier(0.85, 0.02, 1, 1) 1;
+-moz-animation:widthfrom0to26percent 4s cubic-bezier(0.85, 0.02, 1, 1) 1;
+animation:widthfrom0to26percent 4s cubic-bezier(0.85, 0.02, 1, 1) 1;
+}
+
+
+</style>
+</head>
+<body>
+<!--{ -->
+
+	<a class="ui simulation" href="#clicked" onclick="">
+		<div class="box video">
+			<div class="top">
+				24547 visualizzazioni:&ensp;&ldquo;<em class="description">Cantare con il seno</em>&rdquo;.
+			</div>
+			<div class="show">
+				<img src="./res/img/videothumb.jpg" alt="&zwj;"><!-- http://www.dvbuilder.com/galleries/lpbeviral/immaginevideo.jpg -->
+			</div>
+			<ul class="bar">
+				<li>
+					<em class="play">&#9658;</em>
+					<em class="previous">|&#9668;</em>
+					<em class="next">&#9658;|</em>
+					<em class="timeline">
+						<span class="loaded">
+							<span class="played">(<span class="handler">&bull;</span>)</span>
+						</span>
+					</em>
+					<em class="volume">&#128266;</em>
+				</li>
+				<li>
+					<em class="time">
+						<span class="played">00:01</span>|<span class="total">00:30</span>
+					</em>
+				</li>
+			</ul>
+		</div>
+	</a>
+
+<!-- }-->
+</body>
+</html>
